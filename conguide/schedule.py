@@ -184,7 +184,7 @@ class HtmlOutput(Output):
     def cleanup(self, text):
         text = Output.cleanup(self, text)
         # convert ampersand
-        text = text.replace('&', '&amp;')
+        text = text.replace('& ', '&amp; ')
         # convert line breaks
         text = text.replace('\n', '<br/>\n')
         return text
@@ -229,7 +229,7 @@ class XmlOutput(Output):
 
     def cleanup(self, text):
         # convert ampersand
-        return Output.cleanup(self, text).replace('&', '&amp;')
+        return Output.cleanup(self, text).replace('& ', '&amp; ')
 
     def markupSession(self, session, text):
         return '<ss-session>%s</ss-session>' % text if text else ''

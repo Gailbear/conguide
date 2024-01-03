@@ -75,10 +75,13 @@ def read(fn):
     sessions = sorted(sessions)
 
     # add participant metadata
-    # people_by_name = reduce(lambda prev, part: {**prev, part['name']: part}, people, {})
-    # for p in participants.items():
-    #     p[1].bio = people_by_name[p[0]]
-    # print([(p.name, p.bio) for p in participants].join('\n'))
+    people_by_name = reduce(lambda prev, part: {**prev, part['name']: part}, people, {})
+    for p in participants.items():
+        person = people_by_name[p[0]]
+        if person['bio']:
+            p[1].bio = person['bio']
+        p[1].links = person['links']
+        #p[1].id = person['id']
     return (sessions, participants)
 
 def read_bios(fn, participants):

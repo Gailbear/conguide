@@ -57,58 +57,59 @@ class Output(output.Output):
                 print('not found: ' + participant.name)
             bio = boldname
         else:
-            firstname = participant.firstname
-            lastname = participant.lastname
-            pubsname = participant.name
-            fullname = '%s %s' % (firstname, lastname)
-            first = re.sub(r' .*$', '', firstname)
-            shortname = '%s %s' % (first, lastname)
+            pass
+            # firstname = participant.firstname
+            # lastname = participant.lastname
+            # pubsname = participant.name
+            # fullname = '%s %s' % (firstname, lastname)
+            # first = re.sub(r' .*$', '', firstname)
+            # shortname = '%s %s' % (first, lastname)
 
-            # Try to bold the name in the bio text.
-            name = self.boldnames.get(participant.name)
-            if name:
-                if config.debug:
-                    print('config override: ' + participant.name)
-                if name in bio:
-                    bio = bio.replace(name, self.bold(name), 1)
-                else:
-                    bio = boldname + u'\u2014' + bio
-            elif not participant.bio or participant.bio == 'NULL':
-                if config.debug:
-                    print('empty bio: ' + participant.name)
-                bio = boldname
-            elif re.match(r'^(?=[a-z])', bio):
-                if config.debug:
-                    print('beginning lowercase: ' + participant.name)
-                bio = '%s %s' % (boldname, bio)
-            elif pubsname in bio:
-                if config.debug:
-                    print('pubsname match: ' + participant.name)
-                bio = bio.replace(pubsname, boldname, 1)
-            elif fullname in bio:
-                if config.debug:
-                    print('fullname match: ' + participant.name)
-                bio = bio.replace(fullname, boldname, 1)
-            elif shortname in bio:
-                if config.debug:
-                    print('shortname match: ' + participant.name)
-                bio = bio.replace(shortname, boldname, 1)
-            elif 'Dr. ' + lastname in bio:
-                if config.debug:
-                    print('Dr. match: ' + participant.name)
-                bio = bio.replace('Dr. ' + lastname, 'Dr. ' + boldname, 1)
-            elif firstname in bio:
-                if config.debug:
-                    print('firstname match: ' + participant.name)
-                bio = bio.replace(firstname, boldname, 1)
-            elif lastname in bio:
-                if config.debug:
-                    print('lastname match: ' + participant.name)
-                bio = bio.replace(lastname, boldname, 1)
-            else:
-                if config.debug:
-                    print('no match: ' + participant.name)
-                bio = u'%s\u2014%s' % (boldname, bio)
+            # # Try to bold the name in the bio text.
+            # name = self.boldnames.get(participant.name)
+            # if name:
+            #     if config.debug:
+            #         print('config override: ' + participant.name)
+            #     if name in bio:
+            #         bio = bio.replace(name, self.bold(name), 1)
+            #     else:
+            #         bio = boldname + u'\u2014' + bio
+            # elif not participant.bio or participant.bio == 'NULL':
+            #     if config.debug:
+            #         print('empty bio: ' + participant.name)
+            #     bio = boldname
+            # elif re.match(r'^(?=[a-z])', bio):
+            #     if config.debug:
+            #         print('beginning lowercase: ' + participant.name)
+            #     bio = '%s %s' % (boldname, bio)
+            # elif pubsname in bio:
+            #     if config.debug:
+            #         print('pubsname match: ' + participant.name)
+            #     bio = bio.replace(pubsname, boldname, 1)
+            # elif fullname in bio:
+            #     if config.debug:
+            #         print('fullname match: ' + participant.name)
+            #     bio = bio.replace(fullname, boldname, 1)
+            # elif shortname in bio:
+            #     if config.debug:
+            #         print('shortname match: ' + participant.name)
+            #     bio = bio.replace(shortname, boldname, 1)
+            # elif 'Dr. ' + lastname in bio:
+            #     if config.debug:
+            #         print('Dr. match: ' + participant.name)
+            #     bio = bio.replace('Dr. ' + lastname, 'Dr. ' + boldname, 1)
+            # elif firstname in bio:
+            #     if config.debug:
+            #         print('firstname match: ' + participant.name)
+            #     bio = bio.replace(firstname, boldname, 1)
+            # elif lastname in bio:
+            #     if config.debug:
+            #         print('lastname match: ' + participant.name)
+            #     bio = bio.replace(lastname, boldname, 1)
+            # else:
+            #     if config.debug:
+            #         print('no match: ' + participant.name)
+            #     bio = u'%s\u2014%s' % (boldname, bio)
         return self.cleanup(bio)
 
     def markupBio(self, participant, text):
@@ -141,7 +142,8 @@ class TextOutput(Output):
 
     def cleanup(self, text):
         # convert italics
-        return re.sub(r'</?i>', '*', text)
+        # return re.sub(r'</?i>', '*', text)
+        return text
 
     def bold(self, text):
         return '**%s**' % text
@@ -178,31 +180,31 @@ class HtmlOutput(Output):
 
     def cleanup(self, text):
         # convert ampersand
-        return text.replace('&', '&amp;')
+        return text.replace('& ', '&amp; ')
 
     def bold(self, text):
         return '<b>%s</b>' % text
 
     def markupBio(self, participant, bio):
         # add a link to the participant's website or email address
-        def repl(matchobj):
-            url = matchobj.group(0)
-            (url, period) = re.subn(r'\.$', '', url)
-            if '@' in  url:
-                fullurl = 'mailto://' + url
-            elif not re.match(r'^http', url, flags=re.I):
-                fullurl = 'http://' + url
-            else:
-                fullurl = url
-            string = '<a href="%s">%s</a>' % (fullurl, url)
-            if period:
-                string += '.'
-            return string
+        # def repl(matchobj):
+        #     url = matchobj.group(0)
+        #     (url, period) = re.subn(r'\.$', '', url)
+        #     if '@' in  url:
+        #         fullurl = 'mailto://' + url
+        #     elif not re.match(r'^http', url, flags=re.I):
+        #         fullurl = 'http://' + url
+        #     else:
+        #         fullurl = url
+        #     string = '<a href="%s">%s</a>' % (fullurl, url)
+        #     if period:
+        #         string += '.'
+        #     return string
 
-        bio = re.sub(r'([a-zA-Z0-9\-_:\/\.~@]*)' + \
-                     r'(www\.[a-zA-Z0-9\-_:\/\.~%]+|\.(com|org|net|biz)' + \
-                     r'[a-zA-Z0-9\-_:\/\.~%]*)',
-                     repl, bio, flags=re.I)
+        # bio = re.sub(r'([a-zA-Z0-9\-_:\/\.~@]*)' + \
+        #              r'(www\.[a-zA-Z0-9\-_:\/\.~%]+|\.(com|org|net|biz)' + \
+        #              r'[a-zA-Z0-9\-_:\/\.~%]*)',
+        #              repl, bio, flags=re.I)
 
         return '<a name="%s"></a>\n%s ' % \
             (re.sub(r'\W', '', participant.__str__()), bio)
@@ -235,7 +237,8 @@ class XmlOutput(Output):
 
     def cleanup(self, text):
         # convert ampersand
-        return text.replace('&', '&amp;')
+        return text.replace('& ', '&amp; ')
+        
 
     def bold(self, text):
         return '<bold>%s</bold>' % text

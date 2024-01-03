@@ -205,6 +205,8 @@ def write(output, sessions):
     tracks = {}
     for session in sessions:
         t = session.track
+        if not t:
+            continue
         for k, v in Output.classifiers:
             if eval(v):
                 t = k
