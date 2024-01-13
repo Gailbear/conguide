@@ -57,7 +57,6 @@ class Output(output.Output):
                 print('not found: ' + participant.name)
             bio = boldname
         else:
-            pass
             # firstname = participant.firstname
             # lastname = participant.lastname
             # pubsname = participant.name
@@ -109,7 +108,7 @@ class Output(output.Output):
             # else:
             #     if config.debug:
             #         print('no match: ' + participant.name)
-            #     bio = u'%s\u2014%s' % (boldname, bio)
+            bio = u'%s\u2014%s' % (boldname, bio)
         return self.cleanup(bio)
 
     def markupBio(self, participant, text):

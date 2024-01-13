@@ -93,7 +93,7 @@ class HtmlOutput(Output):
 
     def cleanup(self, text):
         # convert ampersand
-        return text.replace('&', '&amp;')
+        return text.replace('& ', '&amp; ')
 
     def markupParticipant(self, participant, name):
         return '<a name="%s"></a>%s' % (re.sub(r'\W', '', name), name)
@@ -132,7 +132,9 @@ class XmlOutput(Output):
 
     def cleanup(self, text):
         # convert ampersand
-        return text.replace('&', '&amp;')
+        text = text.replace('& ', '&amp; ')
+        return text.replace('D&D', 'D&amp;D')\
+        
 
     def markupXref(self, text):
         return '<xref>%s</xref>' % text if text else ''

@@ -73,6 +73,8 @@ def read(fn):
 
     sessions = map(lambda p: Session(transform_program_item(p), participants), program)
     sessions = sorted(sessions)
+    for i in range(len(sessions)):
+        sessions[i].index = i + 1
 
     # add participant metadata
     people_by_name = reduce(lambda prev, part: {**prev, part['name']: part}, people, {})
